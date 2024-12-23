@@ -1,19 +1,18 @@
 ##some prism comps with output from smoothing function 
 # library(dplyr)
 
-site <- 'OSBS'
+site <- 'YELL'
 
-# dirSmooth <- '/scratch/pfs/precipWeighing_compute_precip_dynamic_minEvap_15.5'
-# Div <- .75 # compensates for difference in slope of 0.25 lower for NEON cal. Set to 1 for no compensation.
-dirSmooth <- '/scratch/pfs/precipWeighing_combine_precip'
+dirData <- '/scratch/pfs/precipWeighing_level1_group_consolidate_srf'
+# dirData <- '/scratch/pfs/precipWeighing_combine_precip_old'
 Div <- 1 # compensates for difference in slope of 0.25 lower for NEON cal. Set to 1 for no compensation.
 
 # Get list of applicable data files
-filesAll <- list.files(path=dirSmooth,pattern='[0-9].parquet',recursive=TRUE,full.names=TRUE)
-filesAll <- list.files(path=dirSmooth,pattern='[0-9].parquet',recursive=TRUE,full.names=TRUE) # Keep this second one. Needed to consistent get all years.
+filesAll <- list.files(path=dirData,pattern='[0-9].parquet',recursive=TRUE,full.names=TRUE)
+filesAll <- list.files(path=dirData,pattern='[0-9].parquet',recursive=TRUE,full.names=TRUE) # Keep this second one. Needed to consistent get all years.
 ptrnSite <- paste0('*/precip-weighing_',site,'*')
 filesSite <- filesAll[grepl(pattern=ptrnSite,filesAll)]
-ptrnHourly <- paste0('stats_060')
+ptrnHourly <- paste0('060')
 filesSite <- filesSite[grepl(pattern=ptrnHourly,filesSite)]
 
 strainGaugeDepthAgr <- NEONprocIS.base::def.read.parq.ds(fileIn = filesSite,VarTime='startDateTime',Df=TRUE)
